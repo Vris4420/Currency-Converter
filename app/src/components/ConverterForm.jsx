@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Shimer } from "./ui/Shimer";
 import CurrencySelect from "./CurrencySelect";
 
 const ConverterForm = () => {
+
+    const [fromCurrency, setFormCurrency] = useState("USD")
+    const [toCurrency, setToCurrency] = useState("INR")
+    const handleSwapCountries = () => {
+        setFormCurrency(toCurrency)
+        setToCurrency(fromCurrency)
+    }
+
   return (
     <>
       <form className="converter-form">
@@ -17,11 +25,14 @@ const ConverterForm = () => {
         <div className="form-group form-currency-group">
           <div className="form-section">
             <label className="form-label">From</label>
-            <CurrencySelect />
+            <CurrencySelect
+              selectedCurrency={fromCurrency}
+              handleCurrency={(e) => setFormCurrency(e.target.value)}
+            />
           </div>
 
           <div
-            className="swap-icon"
+            className="swap-icon"onClick={handleSwapCountries}
             style={{ color: "#ffffff", fontSize: "25px" }}
           >
             <FontAwesomeIcon icon={faArrowRightArrowLeft} />
@@ -30,7 +41,10 @@ const ConverterForm = () => {
           {/* to  */}
           <div className="form-section">
             <label className="form-label">To</label>
-            <CurrencySelect />
+            <CurrencySelect
+              selectedCurrency={toCurrency}
+              handleCurrency={(e) => setToCurrency(e.target.value)}
+            />
           </div>
         </div>
 
