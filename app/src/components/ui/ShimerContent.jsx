@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { IconClipboard } from "@tabler/icons-react";
-import { cn } from "../utils/cn.js";
+import { cn } from "../../utils/cn.js";
 
 export const ButtonsCard = ({ children, className, onClick }) => {
   return (

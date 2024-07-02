@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { Aurora } from "./components/Aurora";
+
+import { Aurora } from "./components/ui/Aurora";
 
 function App() {
   return (
