@@ -1,24 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Shimer } from "./ui/Shimer";
 import CurrencySelect from "./CurrencySelect";
+import axios from 'axios'
 
 const ConverterForm = () => {
-
-    const [fromCurrency, setFormCurrency] = useState("USD")
-    const [toCurrency, setToCurrency] = useState("INR")
-    const handleSwapCountries = () => {
-        setFormCurrency(toCurrency)
-        setToCurrency(fromCurrency)
-    }
+  const [fromCurrency, setFormCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("INR");
+  const [amount, setAmonut] = useState(100);
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleSwapCountries = () => {
+    setFormCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+  };
+ 
+  const getExchangeRate =  () => {
+    // const API_KEY = import.meta.env.VITE_API_KEY;
+    setLoading(true)
+    axios
+      .get(
+        ` https://v6.exchangerate-api.com/v6/d87fd759d6c93bb5a88b05d6/pair/${fromCurrency}/${toCurrency}`
+      )
+      .then((data) => {
+        const rate = (data.data.conversion_rate * amount).toFixed(2);
+        setResult(`${amount} ${fromCurrency} = ${rate} ${toCurrency}`);
+        console.log(rate);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    getExchangeRate();
+  };
+  useEffect(() => getExchangeRate, [])
 
   return (
     <>
-      <form className="converter-form">
+      <form className="converter-form" onSubmit={handleFormSubmit}>
         <div className="form-group">
           <label className="form-label">Enter Amount</label>
-          <input type="number" className="form-input" required />
+          <input type="number" className="form-input" value={amount} onChange={e => setAmonut(e.target.value)} required />
         </div>
 
         {/* from  */}
@@ -32,7 +60,8 @@ const ConverterForm = () => {
           </div>
 
           <div
-            className="swap-icon"onClick={handleSwapCountries}
+            className="swap-icon"
+            onClick={handleSwapCountries}
             style={{ color: "#ffffff", fontSize: "25px" }}
           >
             <FontAwesomeIcon icon={faArrowRightArrowLeft} />
@@ -54,7 +83,9 @@ const ConverterForm = () => {
 
         <Shimer />
 
-        <p className="exchange-rate-result">1 usd = 80 inr</p>
+        <p className={` ${loading ? "loading" : ''} exchange-rate-result`}>
+          {loading ? ". . ." :  result}
+        </p>
       </form>
     </>
   );
