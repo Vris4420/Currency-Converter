@@ -6,6 +6,7 @@ import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import React from "react";
 import { AuroraBackground } from "./AuroraContent";
+import { Shimer} from "./Shimer";
 
 export function Aurora() {
   return (
@@ -18,9 +19,9 @@ export function Aurora() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="relative flex flex-col gap-4 items-center justify-center  "
+        className="relative flex flex-col items-center justify-center  "
       >
-        
+        <div className="container">
           <h2 className="converter-title">Curreny Converter</h2>
 
           <form className="converter-form">
@@ -68,12 +69,15 @@ export function Aurora() {
               </div>
             </div>
 
-            <button type="submit" className="submit-button">
+            {/* <button type="submit" className="submit-button">
               Get Exchange Rate
-            </button>
+            </button> */}
 
+            <Shimer/>
+            
             <p className="exchange-rate-result">1 usd = 80 inr</p>
           </form>
+          </div>
         
       </motion.div>
     </AuroraBackground>
